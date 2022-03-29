@@ -1,24 +1,8 @@
 module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: "style-loader",
-          },
-          {
-            loader: "css-loader",
-            options: {
-              importLoaders: 1,
-            },
-          },
-          {
-            loader: "postcss-loader",
-          },
-        ],
-      },
-    ],
+  entry: "./src/js/app.js",
+  mode: "development",
+  output: {
+    path: `${__dirname}/dist/js/`,
+    filename: "app.js",
   },
 };

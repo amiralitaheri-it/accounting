@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>سیستم دخل و خرج</title>
     <link rel="stylesheet" href="../../dist/css/style.css" />
-    <link type="text/css" rel="stylesheet" href="jalalidatepicker.min.css" />
+    <!-- <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script> -->
   </head>
-  <body class="font-vazir select-none">
+  <body class="font-vazir bg-gray-100 select-none">
     <header class="relative">
       <div>
         <img
@@ -23,13 +26,16 @@
         />
       </div>
     </header>
-    <main x-data>
+    <main x-data="costData">
       <!-- --------------------------- chart and form ---------------------------- -->
       <section class="w-3/4 m-auto">
         <div class="flex px-10 -py-10 justify-center">
           <!-- ---------------------------- right section ---------------------------- -->
-          <div class="bg-red-300 container px-20 py-10">
-            <form class="flex flex-col gap-7">
+          <div class="bg-red-300 container px-20 py-10 justify-center">
+            <form
+              class="flex flex-col gap-7 w-full justify-center"
+              @submit.prevent="storeDataToLocalStorage"
+            >
               <!-- ---------------------------- radio button ----------------------------- -->
               <div class="flex justify-between text-lg">
                 <div
@@ -38,13 +44,13 @@
                   <input
                     class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio1"
-                    value="option1"
+                    id="incomeRadio"
+                    x-model="cost.typeOfCost"
+                    value="درآمد"
                   />
                   <label
                     class="form-check-label inline-block text-gray-800 ml-5 cursor-pointer"
-                    for="inlineRadio1"
+                    for="incomeRadio"
                     >درآمد</label
                   >
                 </div>
@@ -59,50 +65,82 @@
                   <input
                     class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio2"
-                    value="option2"
+                    id="expenseRadio"
+                    x-model.lazy="cost.typeOfCost"
+                    value="هزینه"
                   />
                 </div>
               </div>
               <!-- ----------------------------- price input ----------------------------- -->
-              <div class="form-control w-full max-w-xs">
+              <div class="form-control w-full flex flex-col">
                 <label class="label">
                   <span class="label-text-alt text-lg">مبلغ :</span>
                 </label>
                 <input
                   type="number"
+                  x-model.number.lazy="cost.price"
                   placeholder="مبلغ"
-                  class="input input-bordered w-full max-w-xs mt-3 px-3 py-2 rounded-md mb-1"
+                  class="input input-bordered w-full mt-3 px-3 py-2 rounded-md mb-1"
+                  required
                 />
-                <span id="priceInPersian" class="text-sm"
-                  >دویست هزار تومان</span
-                >
+                <span
+                  id="priceInPersian"
+                  x-text="Num2persian(cost.price) + ' تومان'"
+                  class="text-sm text-green-700"
+                ></span>
               </div>
               <!-- ------------------------- Jalali Date Picker -------------------------- -->
-              <div class="form-control w-full max-w-xs">
+              <div class="form-control w-full flex flex-col">
                 <label class="label">
                   <span class="label-text-alt text-lg">تاریخ :</span>
                 </label>
-                <input
-                  type="number"
-                  placeholder="تاریخ"
-                  class="input input-bordered w-full max-w-xs mt-3 px-3 py-2 rounded-md"
-                />
+                <div class="flex justify-between gap-3">
+                  <input
+                    type="number"
+                    x-model.lazy="cost.day"
+                    placeholder="روز"
+                    maxlength="2"
+                    min="0"
+                    max="31"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    class="input input-bordered w-full mt-3 px-3 py-2 rounded-md"
+                    required
+                  />
+                  <input
+                    type="number"
+                    x-model.lazy="cost.month"
+                    placeholder="ماه"
+                    maxlength="2"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    class="input input-bordered w-full mt-3 px-3 py-2 rounded-md"
+                    required
+                  />
+                  <input
+                    type="number"
+                    x-model.lazy="cost.year"
+                    placeholder="سال"
+                    maxlength="4"
+                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                    class="input input-bordered w-full mt-3 px-3 py-2 rounded-md"
+                    required
+                  />
+                </div>
               </div>
               <!-- ----------------------------- description ----------------------------- -->
-              <div class="flex">
-                <div class="mb-3 xl:w-96">
+              <div class="flex flex-col">
+                <div class="mb-3">
                   <label
-                    for="exampleFormControlTextarea1"
+                    for="description"
                     class="form-label inline-block mb-2 text-gray-700 text-lg"
                     >توضیحات :</label
                   >
                   <textarea
                     class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                    id="exampleFormControlTextarea1"
+                    x-model="cost.description"
                     rows="3"
-                    placeholder="Your message"
+                    id="description"
+                    placeholder="توضیحات شما..."
+                    required
                   ></textarea>
                 </div>
               </div>
@@ -143,6 +181,7 @@
                 <div>
                   <div>
                     <div>
+                      <!-- ------------------------ headers of the table ------------------------- -->
                       <div
                         class="flex justify-between bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold text-md"
                       >
@@ -162,36 +201,156 @@
                           <span>توضیحات</span>
                         </div>
                       </div>
+                      <!-- -------------------------- data of the table -------------------------- -->
                       <div>
-                        <div
-                          class="flex justify-between text-sm font-normal mt-4 space-x-1"
+                        <template
+                          x-for="(data, index) in formData"
+                          :key="index"
                         >
-                          <div class="px-2 flex">
-                            <span>1</span>
+                          <div
+                            class="flex justify-between text-sm font-normal mt-4 space-x-1"
+                          >
+                            <div class="px-2 flex">
+                              <span x-text="index + 1"></span>
+                            </div>
+                            <div>
+                              <span x-text="data.cost.price"></span>
+                              <span>تومان</span>
+                            </div>
+                            <div>
+                              <span
+                                x-text="`${data.cost.year}/${data.cost.month}/${data.cost.day}`"
+                              ></span>
+                            </div>
+                            <div>
+                              <span x-text="data.cost.typeOfCost"></span>
+                            </div>
+                            <div class="flex gap-3 item-center justify-center">
+                              <span x-data="{show : false}">
+                                <button
+                                  @click="show = true"
+                                  class="bg-blue-500 py-2 px-3 rounded cursor-pointer text-white"
+                                >
+                                  نمایش
+                                </button>
+                                <div
+                                  class="overlay"
+                                  :class="{'is-visible' : show}"
+                                ></div>
+
+                                <!-- -------------------------------- modal -------------------------------- -->
+                                <div
+                                  class="modal"
+                                  :class="{'is-visible' : show}"
+                                >
+                                  <div
+                                    class="flex justify-between items-center w-full"
+                                  >
+                                    <span class="text-lg font-semibold"
+                                      >توضیحات</span
+                                    >
+                                    <button
+                                      class="modal-close-btn flex items-center gap-2"
+                                      @click="show = false"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="14"
+                                        height="14"
+                                        fill="currentColor"
+                                        class="bi bi-x-lg"
+                                        viewBox="0 0 16 16"
+                                      >
+                                        <path
+                                          d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"
+                                        />
+                                      </svg>
+                                      <span class="text-sm">بستن</span>
+                                    </button>
+                                  </div>
+
+                                  <p
+                                    x-text="data.cost.description"
+                                    class="mt-8"
+                                  ></p>
+                                  <button
+                                    class="btn w-full bg-blue-500 text-white mt-10"
+                                    @click="show = false"
+                                  >
+                                    بازگشت
+                                  </button>
+                                </div>
+                              </span>
+                              <span
+                                x-data="{show : false}"
+                                class="flex items-center"
+                              >
+                                <button
+                                  @click="show = true"
+                                  class="ring-2 ring-rose-400 py-1.5 px-3 rounded cursor-pointer text-rose-600 hover:bg-rose-400 hover:text-white transition duration-300 font-bold"
+                                >
+                                  حذف
+                                </button>
+                                <div
+                                  class="overlay"
+                                  :class="{'is-visible' : show}"
+                                ></div>
+
+                                <!-- -------------------------------- modal -------------------------------- -->
+                                <div
+                                  class="modal"
+                                  :class="{'is-visible' : show}"
+                                >
+                                  <div
+                                    class="flex justify-between items-center w-full"
+                                  >
+                                    <span class="text-lg font-semibold"
+                                      >حذف</span
+                                    >
+                                    <button
+                                      class="modal-close-btn flex items-center gap-2"
+                                      @click="show = false"
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="14"
+                                        height="14"
+                                        fill="currentColor"
+                                        class="bi bi-x-lg"
+                                        viewBox="0 0 16 16"
+                                      >
+                                        <path
+                                          d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"
+                                        />
+                                      </svg>
+                                      <span class="text-sm">بستن</span>
+                                    </button>
+                                  </div>
+
+                                  <p class="mt-8 text-center">
+                                    آیا مطمئن هستید؟
+                                  </p>
+                                  <div
+                                    class="flex justify-between gap-2 items-center"
+                                  >
+                                    <button
+                                      class="btn w-full bg-blue-500 text-white mt-10"
+                                      @click="show = false"
+                                    >
+                                      بازگشت
+                                    </button>
+                                    <button
+                                      class="btn w-full ring-2 text-rose-600 ring-rose-400 hover:bg-rose-600 hover:text-white mt-10 transition duration-300"
+                                      @click="deleteCostItem(index)"
+                                    >
+                                      حذف
+                                    </button>
+                                  </div>
+                                </div>
+                              </span>
+                            </div>
                           </div>
-                          <div>
-                            <span>250,000</span>
-                            <span>تومان</span>
-                          </div>
-                          <div>
-                            <span>1380/09/25</span>
-                          </div>
-                          <div>
-                            <span>درآمد</span>
-                          </div>
-                          <div class="flex gap-3 item-center justify-center">
-                            <button
-                              class="bg-blue-500 py-2 px-3 rounded cursor-pointer text-white"
-                            >
-                              نمایش
-                            </button>
-                            <button
-                              class="outline outline-rose-500 py-1 px-3 rounded cursor-pointer text-rose-600 hover:bg-rose-400 hover:text-white transition duration-300 font-bold"
-                            >
-                              حذف
-                            </button>
-                          </div>
-                        </div>
+                        </template>
                       </div>
                     </div>
                   </div>

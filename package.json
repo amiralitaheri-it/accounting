@@ -29,9 +29,11 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "@alpinejs/persist": "^3.9.5",
     "@majidh1/jalalidatepicker": "^0.5.2",
     "alpinejs": "^3.9.5",
     "cssnano": "^5.1.5",
+    "num2persian": "^3.2.2",
     "postcss-cli": "^9.1.0",
     "postcss-nested": "^5.0.6"
   }

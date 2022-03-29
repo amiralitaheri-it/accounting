@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>سیستم دخل و خرج</title>
+    <link rel="stylesheet" href="../../dist/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="jalalidatepicker.min.css" />
+  </head>
+  <body class="font-vazir select-none">
+    <header class="relative">
+      <div>
+        <img
+          class="absolute w-full m-auto"
+          src="../../dist/images/gray-overlay.png"
+          alt="gray overlay"
+        />
+        <img
+          class="m-auto w-full"
+          src="../../dist/images/top-banner.png"
+          alt="top banner"
+        />
+      </div>
+    </header>
+    <main x-data>
+      <!-- --------------------------- chart and form ---------------------------- -->
+      <section class="w-3/4 m-auto">
+        <div class="flex px-10 -py-10 justify-center">
+          <!-- ---------------------------- right section ---------------------------- -->
+          <div class="bg-red-300 container px-20 py-10">
+            <form class="flex flex-col gap-7">
+              <!-- ---------------------------- radio button ----------------------------- -->
+              <div class="flex justify-between text-lg">
+                <div
+                  class="form-check form-check-inline border border-gray-400 rounded-md px-8 py-3"
+                >
+                  <input
+                    class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio1"
+                    value="option1"
+                  />
+                  <label
+                    class="form-check-label inline-block text-gray-800 ml-5 cursor-pointer"
+                    for="inlineRadio1"
+                    >درآمد</label
+                  >
+                </div>
+                <div
+                  class="form-check form-check-inline border border-gray-400 rounded-md px-8 py-3"
+                >
+                  <label
+                    class="form-check-label inline-block text-gray-800 ml-5 cursor-pointer"
+                    for="inlineRadio2"
+                    >هزینه</label
+                  >
+                  <input
+                    class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                    type="radio"
+                    name="inlineRadioOptions"
+                    id="inlineRadio2"
+                    value="option2"
+                  />
+                </div>
+              </div>
+              <!-- ----------------------------- price input ----------------------------- -->
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <span class="label-text-alt text-lg">مبلغ :</span>
+                </label>
+                <input
+                  type="number"
+                  placeholder="مبلغ"
+                  class="input input-bordered w-full max-w-xs mt-3 px-3 py-2 rounded-md mb-1"
+                />
+                <span id="priceInPersian" class="text-sm"
+                  >دویست هزار تومان</span
+                >
+              </div>
+              <!-- ------------------------- Jalali Date Picker -------------------------- -->
+              <div class="form-control w-full max-w-xs">
+                <label class="label">
+                  <span class="label-text-alt text-lg">تاریخ :</span>
+                </label>
+                <input
+                  type="number"
+                  placeholder="تاریخ"
+                  class="input input-bordered w-full max-w-xs mt-3 px-3 py-2 rounded-md"
+                />
+              </div>
+              <!-- ----------------------------- description ----------------------------- -->
+              <div class="flex">
+                <div class="mb-3 xl:w-96">
+                  <label
+                    for="exampleFormControlTextarea1"
+                    class="form-label inline-block mb-2 text-gray-700 text-lg"
+                    >توضیحات :</label
+                  >
+                  <textarea
+                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    id="exampleFormControlTextarea1"
+                    rows="3"
+                    placeholder="Your message"
+                  ></textarea>
+                </div>
+              </div>
+              <!-- ---------------------------- submit button ---------------------------- -->
+              <input
+                type="submit"
+                class="btn w-full bg-green-600 text-white"
+                value="ثبت دخل و خرج"
+              />
+            </form>
+          </div>
+          <!-- ---------------------------- left section ---------------------------- -->
+          <div class="bg-blue-300 container px-20 py-10">
+            <div class="flex flex-col">
+              <!-- ------------------------- Income and expenses ------------------------- -->
+              <div class="flex justify-between px-20 text-center">
+                <div class="flex flex-col gap-4">
+                  <h4 class="text-xl">درآمد</h4>
+                  <span class="text-lg text-green-600">865,000,000</span>
+                </div>
+                <div class="flex flex-col gap-4">
+                  <h4 class="text-xl">مخارج</h4>
+                  <span class="text-lg text-rose-600">550,000,000</span>
+                </div>
+              </div>
+              <!-- -------------------------------- chart -------------------------------- -->
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- -------------------------------- data table -------------------------------- -->
+      <section>
+        <div class="bg-gray-50 min-h-screen">
+          <div>
+            <div class="p-4">
+              <div class="bg-white p-4 rounded-md">
+                <div>
+                  <div>
+                    <div>
+                      <div
+                        class="flex justify-between bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold text-md"
+                      >
+                        <div>
+                          <span>ردیف</span>
+                        </div>
+                        <div>
+                          <span>مبلغ</span>
+                        </div>
+                        <div>
+                          <span>تاریخ</span>
+                        </div>
+                        <div>
+                          <span>نوع هزینه</span>
+                        </div>
+                        <div>
+                          <span>توضیحات</span>
+                        </div>
+                      </div>
+                      <div>
+                        <div
+                          class="flex justify-between text-sm font-normal mt-4 space-x-1"
+                        >
+                          <div class="px-2 flex">
+                            <span>1</span>
+                          </div>
+                          <div>
+                            <span>250,000</span>
+                            <span>تومان</span>
+                          </div>
+                          <div>
+                            <span>1380/09/25</span>
+                          </div>
+                          <div>
+                            <span>درآمد</span>
+                          </div>
+                          <div class="flex gap-3 item-center justify-center">
+                            <button
+                              class="bg-blue-500 py-2 px-3 rounded cursor-pointer text-white"
+                            >
+                              نمایش
+                            </button>
+                            <button
+                              class="outline outline-rose-500 py-1 px-3 rounded cursor-pointer text-rose-600 hover:bg-rose-400 hover:text-white transition duration-300 font-bold"
+                            >
+                              حذف
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="text/javascript" src="../../dist/js/app.js"></script>
+  </body>
+</html>

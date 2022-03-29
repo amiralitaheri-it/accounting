@@ -1,0 +1,38 @@
+{
+  "name": "accounting",
+  "version": "0.1.0",
+  "description": "a simple accounting system using js",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss ./src/main.css -o ./dist/css/style.css -w",
+    "minify": "postcss ./src/main.css -o ./dist/css/style.css --minify",
+    "webpack": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amiralidevmoon/accounting.git"
+  },
+  "keywords": [
+    "accounting"
+  ],
+  "author": "amiralitaheri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amiralidevmoon/accounting/issues"
+  },
+  "homepage": "https://github.com/amiralidevmoon/accounting#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.4.4",
+    "postcss": "^8.4.12",
+    "tailwindcss": "^3.0.23",
+    "webpack": "^5.70.0",
+    "webpack-cli": "^4.9.2"
+  },
+  "dependencies": {
+    "@majidh1/jalalidatepicker": "^0.5.2",
+    "alpinejs": "^3.9.5",
+    "cssnano": "^5.1.5",
+    "postcss-cli": "^9.1.0",
+    "postcss-nested": "^5.0.6"
+  }
+}

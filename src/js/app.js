@@ -26,8 +26,8 @@ document.addEventListener("alpine:init", () => {
       formData: this.$persist([]),
       totalIncomes: this.$persist(0),
       totalCosts: this.$persist(0),
-      incomeArray: this.$persist([]),
-      costArray: this.$persist([]),
+      incomeArray: Alpine.$persist([]),
+      costArray: Alpine.$persist([]),
 
       sumIncome() {
         this.totalIncomes = this.incomeArray.reduce(
@@ -158,5 +158,34 @@ window.toPersianNum = function (num, dontTrim) {
 };
 
 /* -------------------------------- chart js -------------------------------- */
+const labels = ["فروردین ۹۸", "اردیبهشت ۹۸", "خرداد ۹۸"];
+const data = {
+  labels: labels,
+  datasets: [
+    {
+      label: "درآمد",
+      backgroundColor: "hsl(125, 100%, 50%)",
+      borderColor: "hsl(125, 100%, 50%)",
+      data: localStorage.getItem("_x_incomeArray"),
+    },
+    {
+      label: "هزینه",
+      backgroundColor: "hsl(0, 100%, 50%)",
+      borderColor: "hsl(0, 100%, 50%)",
+      data: localStorage.getItem("_x_costArray"),
+    },
+  ],
+};
+
+const configLineChart = {
+  type: "line",
+  data,
+  options: {},
+};
+
+var chartLine = new Chart(
+  document.getElementById("chartLine"),
+  configLineChart
+);
 
 Alpine.start();

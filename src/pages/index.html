@@ -24,10 +24,12 @@
     </header>
     <main x-data="costData">
       <!-- --------------------------- chart and form ---------------------------- -->
-      <section class="w-3/4 m-auto">
-        <div class="flex px-10 -py-10 justify-center">
+      <section class="w-3/4 m-auto relative">
+        <div class="flex px-10 -py-10 justify-center gap-10 -top-24 relative">
           <!-- ---------------------------- right section ---------------------------- -->
-          <div class="bg-red-300 container px-20 py-10 justify-center">
+          <div
+            class="bg-slate-100 shadow-md rounded-md container px-20 py-10 justify-center"
+          >
             <form
               class="flex flex-col gap-7 w-full justify-center"
               @submit.prevent="storeDataToLocalStorage"
@@ -142,13 +144,14 @@
               <!-- ---------------------------- submit button ---------------------------- -->
               <input
                 type="submit"
+                @click="drawChart()"
                 class="btn w-full bg-green-600 hover:bg-green-700 transition duration-200 text-white"
                 value="ثبت دخل و خرج"
               />
             </form>
           </div>
           <!-- ---------------------------- left section ---------------------------- -->
-          <div class="bg-blue-300 container px-20 py-10">
+          <div class="bg-slate-100 container shadow-md rounded-md px-20 py-10">
             <div class="flex flex-col">
               <!-- ------------------------- Income and expenses ------------------------- -->
               <div class="flex justify-between px-20 text-center">
@@ -168,7 +171,9 @@
                 </div>
               </div>
               <!-- -------------------------------- chart -------------------------------- -->
-              <div></div>
+              <div class="rounded-md overflow-hidden mt-28 w-full">
+                <canvas id="chartLine"></canvas>
+              </div>
             </div>
           </div>
         </div>

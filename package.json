@@ -32,9 +32,11 @@
     "@alpinejs/persist": "^3.9.5",
     "@majidh1/jalalidatepicker": "^0.5.2",
     "alpinejs": "^3.9.5",
+    "chart.js": "^3.7.1",
     "cssnano": "^5.1.5",
     "num2persian": "^3.2.2",
     "postcss-cli": "^9.1.0",
-    "postcss-nested": "^5.0.6"
+    "postcss-nested": "^5.0.6",
+    "sweetalert2": "^11.4.8"
   }
 }

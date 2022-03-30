@@ -6,10 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>سیستم دخل و خرج</title>
     <link rel="stylesheet" href="../../dist/css/style.css" />
-    <!-- <script
-      defer
-      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
-    ></script> -->
   </head>
   <body class="font-vazir bg-gray-100 select-none">
     <header class="relative">
@@ -45,7 +41,7 @@
                     class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
                     id="incomeRadio"
-                    x-model="cost.typeOfCost"
+                    x-model="cost.type"
                     value="درآمد"
                   />
                   <label
@@ -66,7 +62,7 @@
                     class="form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                     type="radio"
                     id="expenseRadio"
-                    x-model.lazy="cost.typeOfCost"
+                    x-model.lazy="cost.type"
                     value="هزینه"
                   />
                 </div>
@@ -78,7 +74,7 @@
                 </label>
                 <input
                   type="number"
-                  x-model.number.lazy="cost.price"
+                  x-model.number="cost.price"
                   placeholder="مبلغ"
                   class="input input-bordered w-full mt-3 px-3 py-2 rounded-md mb-1"
                   required
@@ -146,7 +142,7 @@
               <!-- ---------------------------- submit button ---------------------------- -->
               <input
                 type="submit"
-                class="btn w-full bg-green-600 text-white"
+                class="btn w-full bg-green-600 hover:bg-green-700 transition duration-200 text-white"
                 value="ثبت دخل و خرج"
               />
             </form>
@@ -157,17 +153,17 @@
               <!-- ------------------------- Income and expenses ------------------------- -->
               <div class="flex justify-between px-20 text-center">
                 <div class="flex flex-col gap-4">
-                  <h4 class="text-xl">درآمد</h4>
+                  <h4 class="text-2xl font-bold">درآمد</h4>
                   <span
-                    class="text-lg text-green-700 fon-bold"
-                    x-text="incomeCount"
+                    class="text-xl text-green-700 font-bold mt-2"
+                    x-text="toPersianNum(number_format(totalIncomes))"
                   ></span>
                 </div>
                 <div class="flex flex-col gap-4">
-                  <h4 class="text-xl">مخارج</h4>
+                  <h4 class="text-2xl font-bold">مخارج</h4>
                   <span
-                    class="text-lg text-rose-600 fon-bold"
-                    x-text="costCount"
+                    class="text-xl text-rose-600 font-bold mt-2"
+                    x-text="toPersianNum(number_format(totalCosts))"
                   ></span>
                 </div>
               </div>
@@ -188,7 +184,7 @@
                     <div>
                       <!-- ------------------------ headers of the table ------------------------- -->
                       <div
-                        class="flex justify-between bg-gradient-to-tr from-indigo-600 to-purple-600 rounded-md py-2 px-4 text-white font-bold text-md"
+                        class="flex justify-between items-center bg-gradient-to-tr text-center from-indigo-600 to-purple-600 rounded-md py-2 px-8 text-white font-bold text-md"
                       >
                         <div>
                           <span>ردیف</span>
@@ -213,28 +209,33 @@
                           :key="index"
                         >
                           <div
-                            class="flex justify-between text-sm font-normal mt-4 space-x-1"
+                            class="flex justify-between items-center text-base font-normal mt-4 text-center py-2 px-8"
                           >
                             <div class="px-2 flex">
                               <span x-text="index + 1"></span>
                             </div>
                             <div>
-                              <span x-text="data.cost.price"></span>
+                              <span
+                                x-text="toPersianNum(number_format(data.cost.price))"
+                              ></span>
                               <span>تومان</span>
                             </div>
                             <div>
                               <span
-                                x-text="`${data.cost.year}/${data.cost.month}/${data.cost.day}`"
+                                x-text="toPersianNum(`${data.cost.year}/${data.cost.month}/${data.cost.day}`)"
                               ></span>
                             </div>
                             <div>
-                              <span x-text="data.cost.typeOfCost"></span>
+                              <span
+                                x-text="data.cost.type"
+                                :class="data.cost.type == 'درآمد' ? 'text-green-600' : 'text-red-700'"
+                              ></span>
                             </div>
                             <div class="flex gap-3 item-center justify-center">
                               <span x-data="{show : false}">
                                 <button
                                   @click="show = true"
-                                  class="bg-blue-500 py-2 px-3 rounded cursor-pointer text-white"
+                                  class="bg-blue-500 hover:bg-blue-600 transition duration-200 py-2 px-3 rounded cursor-pointer text-white"
                                 >
                                   نمایش
                                 </button>
@@ -279,7 +280,7 @@
                                     class="mt-8"
                                   ></p>
                                   <button
-                                    class="btn w-full bg-blue-500 text-white mt-10"
+                                    class="btn w-full bg-blue-500 hover:bg-blue-600 transition duration-200 text-white mt-10"
                                     @click="show = false"
                                   >
                                     بازگشت
@@ -332,7 +333,7 @@
                                     </button>
                                   </div>
 
-                                  <p class="mt-8 text-center">
+                                  <p class="mt-8 text-center text-lg">
                                     آیا مطمئن هستید؟
                                   </p>
                                   <div
@@ -346,7 +347,7 @@
                                     </button>
                                     <button
                                       class="btn w-full ring-2 text-rose-600 ring-rose-400 hover:bg-rose-600 hover:text-white mt-10 transition duration-300"
-                                      @click="deleteCostItem(data, index)"
+                                      @click="deleteCostItem(data, index); show = false"
                                     >
                                       حذف
                                     </button>

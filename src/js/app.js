@@ -1,17 +1,21 @@
 import Alpine from "alpinejs";
 import persist from "@alpinejs/persist";
 import Num2persian from "num2persian";
+import Swal from "sweetalert2";
+import Chart from "chart.js/auto";
+
+Alpine.plugin(persist);
 
 window.Num2persian = Num2persian;
 window.Alpine = Alpine;
-
-Alpine.plugin(persist);
+window.Swal = Swal;
+window.Chart = Chart;
 
 document.addEventListener("alpine:init", () => {
   Alpine.data("costData", function () {
     return {
       cost: {
-        typeOfCost: "درآمد",
+        type: "درآمد",
         price: 0,
         day: 1,
         month: 1,
@@ -19,53 +23,140 @@ document.addEventListener("alpine:init", () => {
         description: "",
       },
 
-      costCount: this.$persist(0),
-      incomeCount: this.$persist(0),
-      costArray: [],
+      formData: this.$persist([]),
+      totalIncomes: this.$persist(0),
+      totalCosts: this.$persist(0),
+      incomeArray: this.$persist([]),
+      costArray: this.$persist([]),
+
+      sumIncome() {
+        this.totalIncomes = this.incomeArray.reduce(
+          (prev, curr) => prev + curr,
+          0
+        );
+        return this.totalIncomes;
+      },
+
+      sumCost() {
+        this.totalCosts = this.costArray.reduce((prev, curr) => prev + curr, 0);
+        return this.totalCosts;
+      },
 
       deleteCostItem(data, index) {
         this.formData = this.formData.filter((data, dataIndex) => {
           return index !== dataIndex;
         });
 
-        console.log(data.cost.typeOfCost);
-
-        if (data.cost.typeOfCost == "درآمد") {
-          this.incomeCount -= data.cost.price;
-          return;
+        if (data.cost.type == "درآمد") {
+          this.totalIncomes -= data.cost.price;
+          this.incomeArray.splice(this.incomeArray.indexOf(data.cost.price), 1);
         }
 
-        if (data.cost.typeOfCost == "هزینه") {
-          this.costCount -= data.cost.price;
-          return;
+        if (data.cost.type == "هزینه") {
+          this.totalCosts -= data.cost.price;
+          this.costArray.splice(this.costArray.indexOf(data.cost.price), 1);
         }
+
+        this.sweetalert("حذف با موفقیت انجام شد", "success");
       },
 
-      formData: this.$persist([]),
       storeDataToLocalStorage() {
         this.formData.push({
           cost: this.cost,
         });
 
-        this.costArray = this.formData.filter((formData, dataIndex) => {
-          return formData.cost.typeOfCost == "درآمد";
-        });
+        if (this.cost.type == "درآمد") {
+          this.incomeArray.push(this.cost.price);
+          this.sumIncome();
+        }
 
-        this.costArray.forEach((item) => {
-          this.incomeCount += item.cost.price;
-        });
+        if (this.cost.type == "هزینه") {
+          this.costArray.push(this.cost.price);
+          this.sumCost();
+        }
 
         this.cost = {
-          typeOfCost: "درآمد",
+          type: "درآمد",
           price: 0,
           day: 1,
           month: 1,
           year: 1401,
           description: "",
         };
+
+        this.sweetalert("عملیات با موفقیت انجام شد", "success");
+      },
+
+      sweetalert(message, status) {
+        const Toast = Swal.mixin({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 1800,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener("mouseenter", Swal.stopTimer);
+            toast.addEventListener("mouseleave", Swal.resumeTimer);
+          },
+        });
+
+        Toast.fire({
+          icon: status,
+          title: message,
+        });
       },
     };
   });
 });
+
+window.number_format = function (number, decimals, dec_point, thousands_point) {
+  if (number == null || !isFinite(number)) {
+    throw new TypeError("number is not valid");
+  }
+
+  if (!decimals) {
+    var len = number.toString().split(".").length;
+    decimals = len > 1 ? len : 0;
+  }
+
+  if (!dec_point) {
+    dec_point = ".";
+  }
+
+  if (!thousands_point) {
+    thousands_point = ",";
+  }
+
+  number = parseFloat(number).toFixed(decimals);
+
+  number = number.replace(".", dec_point);
+
+  var splitNum = number.split(dec_point);
+  splitNum[0] = splitNum[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousands_point);
+  number = splitNum.join(dec_point);
+
+  return number;
+};
+
+window.toPersianNum = function (num, dontTrim) {
+  var i = 0,
+    dontTrim = dontTrim || false,
+    num = dontTrim ? num.toString() : num.toString().trim(),
+    len = num.length,
+    res = "",
+    pos,
+    persianNumbers =
+      typeof persianNumber == "undefined"
+        ? ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"]
+        : persianNumbers;
+
+  for (; i < len; i++)
+    if ((pos = persianNumbers[num.charAt(i)])) res += pos;
+    else res += num.charAt(i);
+
+  return res;
+};
+
+/* -------------------------------- chart js -------------------------------- */
 
 Alpine.start();

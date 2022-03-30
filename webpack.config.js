@@ -5,4 +5,5 @@ module.exports = {
     path: `${__dirname}/dist/js/`,
     filename: "app.js",
   },
+  watch: true,
 };

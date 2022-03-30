@@ -89,7 +89,7 @@
                   class="text-sm text-green-700"
                 ></span>
               </div>
-              <!-- ------------------------- Jalali Date Picker -------------------------- -->
+              <!-- ------------------------- Date Picker -------------------------- -->
               <div class="form-control w-full flex flex-col">
                 <label class="label">
                   <span class="label-text-alt text-lg">تاریخ :</span>
@@ -140,7 +140,6 @@
                     rows="3"
                     id="description"
                     placeholder="توضیحات شما..."
-                    required
                   ></textarea>
                 </div>
               </div>
@@ -159,11 +158,17 @@
               <div class="flex justify-between px-20 text-center">
                 <div class="flex flex-col gap-4">
                   <h4 class="text-xl">درآمد</h4>
-                  <span class="text-lg text-green-600">865,000,000</span>
+                  <span
+                    class="text-lg text-green-700 fon-bold"
+                    x-text="incomeCount"
+                  ></span>
                 </div>
                 <div class="flex flex-col gap-4">
                   <h4 class="text-xl">مخارج</h4>
-                  <span class="text-lg text-rose-600">550,000,000</span>
+                  <span
+                    class="text-lg text-rose-600 fon-bold"
+                    x-text="costCount"
+                  ></span>
                 </div>
               </div>
               <!-- -------------------------------- chart -------------------------------- -->
@@ -341,7 +346,7 @@
                                     </button>
                                     <button
                                       class="btn w-full ring-2 text-rose-600 ring-rose-400 hover:bg-rose-600 hover:text-white mt-10 transition duration-300"
-                                      @click="deleteCostItem(index)"
+                                      @click="deleteCostItem(data, index)"
                                     >
                                       حذف
                                     </button>

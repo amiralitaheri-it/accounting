@@ -159,7 +159,7 @@ window.toPersianNum = function (num, dontTrim) {
 
 /* -------------------------------- chart js -------------------------------- */
 const labels = ["فروردین ۹۸", "اردیبهشت ۹۸", "خرداد ۹۸"];
-const data = {
+let data = {
   labels: labels,
   datasets: [
     {

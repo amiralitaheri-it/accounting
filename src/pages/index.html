@@ -25,7 +25,7 @@
     <main x-data="costData">
       <!-- --------------------------- chart and form ---------------------------- -->
       <section class="w-3/4 m-auto relative">
-        <div class="flex px-10 -py-10 justify-center gap-10 -top-24 relative">
+        <div class="md:flex px-10 -py-10 gap-10 md:-top-24 -top-14 relative">
           <!-- ---------------------------- right section ---------------------------- -->
           <div
             class="bg-slate-100 shadow-md rounded-md container px-20 py-10 justify-center"
@@ -35,7 +35,7 @@
               @submit.prevent="storeDataToLocalStorage"
             >
               <!-- ---------------------------- radio button ----------------------------- -->
-              <div class="flex justify-between text-lg">
+              <div class="md:flex justify-between text-lg">
                 <div
                   class="form-check form-check-inline border border-gray-400 rounded-md px-8 py-3"
                 >
@@ -144,7 +144,7 @@
               <!-- ---------------------------- submit button ---------------------------- -->
               <input
                 type="submit"
-                @click="drawChart()"
+                id="submitBtn"
                 class="btn w-full bg-green-600 hover:bg-green-700 transition duration-200 text-white"
                 value="ثبت دخل و خرج"
               />
@@ -171,7 +171,7 @@
                 </div>
               </div>
               <!-- -------------------------------- chart -------------------------------- -->
-              <div class="rounded-md overflow-hidden mt-28 w-full">
+              <div class="rounded-md overflow-hidden mt-32 w-full">
                 <canvas id="chartLine"></canvas>
               </div>
             </div>
